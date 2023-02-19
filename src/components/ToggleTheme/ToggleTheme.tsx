@@ -1,3 +1,5 @@
+"use client";
+
 import { Button, NoSsr, Switch } from "@src/components";
 import { SunIcon, MoonIcon } from "@heroicons/react/24/solid";
 import React from "react";
@@ -13,7 +15,7 @@ const ToggleTheme = ({
   const toggleColorScheme = useSchemeStore((state) => state.setColorScheme);
   const colorScheme = useSchemeStore((state) => state.colorScheme);
 
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
     applyThemePreference(colorScheme);
   }, [colorScheme]);
   return (

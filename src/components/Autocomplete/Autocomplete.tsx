@@ -1,11 +1,16 @@
 "use client";
 
-import { ChevronDownIcon, XMarkIcon } from "@heroicons/react/24/solid";
+import {
+  ChevronDownIcon,
+  XMarkIcon,
+  ClipboardIcon,
+} from "@heroicons/react/24/solid";
 import classnames from "classnames";
 import React from "react";
 import { Button, Flex, Typography } from "@src/components";
 import { AutocompleteProps } from "./Autocomplete.Types";
 import uuid from "react-uuid";
+import { useCopyToClipboard } from "@src/hooks";
 
 const Autocomplete: React.FC<AutocompleteProps> = React.forwardRef<
   HTMLInputElement,
@@ -20,12 +25,17 @@ const Autocomplete: React.FC<AutocompleteProps> = React.forwardRef<
     label,
     customRef,
     id,
+    labelClassName,
+    inputClassName,
+    actionsContainerClassName,
+    clearIconClassName,
     ...rest
   } = props;
   const [inputValue, setInputValue] = React.useState("");
   const [showOptions, setShowOptions] = React.useState(false);
   const inputRef = React.useRef<HTMLInputElement>(null);
   const wrapperRef = React.useRef<HTMLDivElement>(null);
+  const [copyToClipboard, { isCopied, error }] = useCopyToClipboard();
 
   const filteredItems = React.useMemo(() => {
     try {
@@ -83,6 +93,7 @@ const Autocomplete: React.FC<AutocompleteProps> = React.forwardRef<
         ref={wrapperRef}
         className={classnames(
           className,
+          "items-center",
           "relative",
           "min-w-[150px]",
           "rounded-md border",
@@ -95,7 +106,14 @@ const Autocomplete: React.FC<AutocompleteProps> = React.forwardRef<
         )}
       >
         <Typography
-          className="absolute left-1 top-[-22px] text-xs capitalize"
+          className={classnames(
+            labelClassName,
+            "absolute",
+            "left-1",
+            "top-[-22px]",
+            "text-xs",
+            "capitalize"
+          )}
           htmlFor={id}
           as="label"
         >
@@ -105,35 +123,85 @@ const Autocomplete: React.FC<AutocompleteProps> = React.forwardRef<
         <input
           id={id}
           placeholder={placeholder}
-          className="bg-transparent text-gray-900 outline-none focus:outline-none dark:text-gray-300"
+          className={classnames(
+            inputClassName,
+            "flex-1",
+            "bg-transparent",
+            "text-gray-900",
+            "outline-none",
+            "focus:outline-none",
+            "dark:text-gray-300"
+          )}
           ref={customRef ? ref : inputRef}
           type="text"
           value={inputValue}
           onChange={(e) => handleInputChange(e)}
           {...rest}
         />
-        {inputValue.length > 0 && (
+
+        <Flex
+          style={{
+            visibility: inputValue.length > 0 ? "visible" : "hidden",
+          }}
+          col
+          className={classnames(
+            actionsContainerClassName,
+            "m-0",
+            "h-full",
+            "items-center",
+            "justify-center",
+            "space-y-2",
+            "bg-transparent"
+          )}
+        >
           <Button
+            aria-details="clear input button"
+            type="button"
+            className="group m-0 p-0"
             onClick={() => {
               atSelect("");
               setInputValue("");
             }}
-            className="absolute top-1 right-[17%] m-0 bg-transparent p-0"
           >
-            <XMarkIcon className="w-4" />
+            <XMarkIcon
+              className={classnames(
+                "w-3",
+                "group-hover:text-red-500",
+                clearIconClassName
+              )}
+            />
           </Button>
-        )}
+          <Button
+            type="button"
+            aria-details="copy input button"
+            onClick={() => {
+              copyToClipboard(inputValue);
+              alert(`coped ${inputValue}`);
+            }}
+            className="group m-0 p-0"
+          >
+            <ClipboardIcon
+              className={classnames(
+                "w-3",
+                "group-hover:text-green-500",
+                clearIconClassName
+              )}
+            />
+          </Button>
+        </Flex>
+
+        <hr className="mx-3 h-8 w-[0.1px] self-center border border-gray-300" />
 
         {showOptions && filteredItems && (
           <ul className="absolute top-full left-0 z-10 max-h-[300px] w-full overflow-scroll rounded-md bg-gray-200 shadow-lg dark:border dark:border-gray-300 dark:bg-gray-800 ">
             {filteredItems?.length > 0 || inputValue.length
-              ? filteredItems?.map((item) => (
+              ? filteredItems?.map((option) => (
                   <li
                     key={uuid()}
-                    onClick={() => handleItemSelect(item)}
-                    className="cursor-pointer px-4 py-2 "
+                    onClick={() => handleItemSelect(option)}
+                    className="relative flex cursor-pointer items-center justify-start p-6"
                   >
-                    <Typography>{item}</Typography>
+                    <Typography>{option}</Typography>
                   </li>
                 ))
               : options?.map((option) => (

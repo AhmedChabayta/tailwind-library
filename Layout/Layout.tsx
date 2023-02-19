@@ -24,7 +24,7 @@ const Layout = (props: LayoutProps) => {
         className="h-screen w-screen overflow-hidden"
       >
         <Sidebar className="h-screen w-[20vw] overflow-y-scroll bg-gray-50 dark:bg-gray-800" />
-        <Box
+        <Flex
           className={classnames(
             className,
             "h-screen",
@@ -36,7 +36,7 @@ const Layout = (props: LayoutProps) => {
           )}
         >
           {children}
-        </Box>
+        </Flex>
       </Flex>
     </div>
   );

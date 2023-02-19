@@ -2,6 +2,7 @@ import type { GetStaticProps, NextPage } from "next";
 
 import Layout from "Layout/Layout";
 import {
+  Accordion,
   Autocomplete,
   Box,
   Center,
@@ -13,6 +14,7 @@ import {
 } from "@src/components";
 import ToggleTheme from "@src/components/ToggleTheme/ToggleTheme";
 import React from "react";
+import { Tooltip } from "@src/components/Tooltip/Tooltip";
 
 export type Data = {
   data: {
@@ -47,24 +49,38 @@ const Home = ({ data }: Data) => {
 
   const names = data.map((item) => item.name);
   const emails = data.map((item) => item.email);
+  const username = data.map((item) => item.username);
 
   return (
-    <Layout className="h-screen" title="New Title">
-      <ToggleTheme as="button" className="absolute right-0 rounded-none" />
-      <Flex col className="h-full items-center justify-center space-y-12">
-        <Autocomplete
-          id="name"
-          label="name"
-          atSelect={handleSelect}
-          options={names}
-        />
-        <Autocomplete
-          id="email"
-          label="email"
-          atSelect={handleSelect}
-          options={emails}
-        />
-      </Flex>
+    <Layout
+      className="h-screen w-screen items-center justify-center"
+      title="New Title"
+    >
+      {" "}
+      <ToggleTheme
+        as="button"
+        className="absolute top-0 right-0 rounded-none"
+      />
+      <Tooltip text="theme toggle">
+        <Typography as="code">
+          {`
+<html>
+  <head>
+  
+  </head>
+  <body>
+
+  </body>
+</html>
+          `}
+        </Typography>
+      </Tooltip>
+      <Autocomplete
+        label="names"
+        atSelect={handleSelect}
+        id="names"
+        options={names}
+      />
     </Layout>
   );
 };

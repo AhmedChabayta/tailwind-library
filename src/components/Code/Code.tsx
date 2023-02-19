@@ -4,24 +4,20 @@ import { motion } from "framer-motion";
 import React from "react";
 import { Code } from "./Code.Types";
 import classnames from "classnames";
+import { useCopyToClipboard } from "@src/hooks";
 
 const Code = React.forwardRef<HTMLElement, Code>((props, ref) => {
   const { className, children, ...rest } = props;
   const [codeText, setCodeText] = React.useState<string | null>("");
   const [toast, setToast] = React.useState<string | null>();
 
-  React.useEffect(() => {
-    if (typeof children === "string") {
-      setCodeText(children);
-    }
-  }, [children]);
-  const copyToClipboard = () => {
+  const [copyToClipboard, { isCopied, error }] = useCopyToClipboard();
+
+  const handleCopyClick = () => {
     try {
       setToast(null);
-      navigator?.clipboard?.writeText(codeText!);
-
+      copyToClipboard(codeText!);
       codeText !== "" ? setToast("Copied") : setToast("No content detected");
-
       setTimeout(() => {
         setToast(null);
       }, 5000);
@@ -32,7 +28,12 @@ const Code = React.forwardRef<HTMLElement, Code>((props, ref) => {
       }, 8000);
     }
   };
-  React.useEffect(() => {}, []);
+  React.useEffect(() => {
+    if (typeof children === "string") {
+      setCodeText(children);
+    }
+  }, [children]);
+
   return (
     <pre className="relative flex max-h-[600px] max-w-4xl overflow-x-hidden overflow-y-scroll whitespace-pre-wrap border bg-white py-4 px-8 text-black dark:bg-black dark:text-gray-300">
       {/* {React.createElement(as, { ref, className, ...rest }, codeText)} */}
@@ -41,7 +42,7 @@ const Code = React.forwardRef<HTMLElement, Code>((props, ref) => {
       </code>
       <Button
         className="absolute top-0 right-0 rounded-none bg-transparent"
-        onClick={copyToClipboard}
+        onClick={handleCopyClick}
       >
         <CodeBracketIcon className="w-7" />
       </Button>

@@ -6,6 +6,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.11",
     "@heroicons/react": "^2.0.15",
     "classnames": "^2.3.2",
     "cookies-next": "^2.1.1",

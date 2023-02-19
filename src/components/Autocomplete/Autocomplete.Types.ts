@@ -8,4 +8,8 @@ export interface AutocompleteProps
   label: string;
   customRef?: boolean;
   id: string;
+  labelClassName?: string;
+  inputClassName?: string;
+  actionsContainerClassName?: string;
+  clearIconClassName?: string;
 }
