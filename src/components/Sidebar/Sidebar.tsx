@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import classnames from "classnames";
-import { GeneralInterface } from "../General.Types";
 import { Button, Flex, Typography } from "@src/components";
-import Grid from "../Grid/Grid";
 import { HomeModernIcon } from "@heroicons/react/24/solid";
 import image from "@src/image.webp";
 import Image from "next/image";
@@ -43,7 +41,13 @@ const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>((props, ref) => {
 
   return showSidebar ? (
     <Flex col ref={ref} className={classnames(className)} {...rest}>
-      <Button className="w-full bg-cyan-600 py-4">Create New Post</Button>
+      <Button
+        role="create new post"
+        type="button"
+        className="w-full rounded-none py-4"
+      >
+        Create New Post
+      </Button>
       <Image src={image} alt="" />
       <Flex col className="my-4 space-y-2 px-3 font-semibold">
         <Typography className="flex w-full justify-between ">

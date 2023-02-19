@@ -31,9 +31,9 @@
     @apply flex;
   }
   .DEFAULT_BUTTON_CLASSNAME {
-    @apply rounded bg-blue-500 px-4 py-2 text-base uppercase font-semibold tracking-[0.5px];
+    @apply rounded px-4 py-2 text-base uppercase font-semibold tracking-[0.5px];
   }
   .DEFAULT_BUTTON_DISABLED_CLASSNAME {
-    @apply rounded bg-gray-800 text-gray-300 px-4 py-2 text-base uppercase font-semibold tracking-[0.5px];
+    @apply rounded px-4 py-2 text-base uppercase font-semibold tracking-[0.5px];
   }
 }

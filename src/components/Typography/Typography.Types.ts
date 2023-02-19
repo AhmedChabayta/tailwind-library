@@ -1,8 +1,17 @@
 import { GeneralInterface } from "../General.Types";
+export type Elements =
+  | HTMLParagraphElement
+  | HTMLHeadingElement
+  | HTMLAnchorElement
+  | HTMLElement
+  | HTMLPreElement
+  | HTMLQuoteElement
+  | HTMLSpanElement
+  | HTMLLabelElement;
 
 export interface TypographyProps
   extends GeneralInterface,
-    Omit<React.HTMLAttributes<any>, "className"> {
+    Omit<React.HTMLAttributes<Elements>, "className"> {
   as?:
     | "p"
     | "h1"
@@ -26,6 +35,8 @@ export interface TypographyProps
     | "q"
     | "small"
     | "big"
-    | "span";
+    | "span"
+    | "label";
   className?: string;
+  htmlFor?: string;
 }
