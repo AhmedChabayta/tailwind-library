@@ -1,6 +1,5 @@
 //src/index.ts
 export {
-  Sidebar,
   Button,
   Flex,
   Typography,

@@ -4,7 +4,7 @@ import { Button, Flex, Typography } from "@src/components";
 import { HomeModernIcon } from "@heroicons/react/24/solid";
 import image from "@src/image.webp";
 import Image from "next/image";
-import Accordion from "../Accordion";
+import Accordion from "../../src/components/Accordion";
 import { SidebarProps } from "./Sidebar.Types";
 
 const lists = [

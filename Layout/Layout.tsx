@@ -1,7 +1,8 @@
 import Head from "next/head";
-import { Box, Button, Flex, Sidebar } from "@src/components";
+import { Box, Button, Flex } from "@src/components";
 import classnames from "classnames";
 import { useSchemeStore } from "@src/Store/schemeStore";
+import Sidebar from "./Sidebar";
 
 interface LayoutProps {
   children?: React.ReactNode;

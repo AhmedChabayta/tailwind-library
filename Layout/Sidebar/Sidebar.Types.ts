@@ -1,4 +1,4 @@
-import { GeneralInterface } from "../General.Types";
+import { GeneralInterface } from "../../src/components/General.Types";
 
 export interface SidebarProps
   extends GeneralInterface,
