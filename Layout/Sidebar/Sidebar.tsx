@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import classnames from "classnames";
-import { Button, Flex, Typography } from "@src/components";
+import { Button, Flex, Typography, Tooltip } from "@src/components";
 import { HomeModernIcon } from "@heroicons/react/24/solid";
 import image from "@src/image.webp";
 import Image from "next/image";
@@ -40,7 +40,12 @@ const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>((props, ref) => {
   }, [show]);
 
   return showSidebar ? (
-    <Flex col ref={ref} className={classnames(className)} {...rest}>
+    <Flex
+      col
+      ref={ref}
+      className={classnames(className, "text-gray-900 dark:text-gray-300")}
+      {...rest}
+    >
       <Button
         role="create new post"
         type="button"
@@ -48,7 +53,9 @@ const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>((props, ref) => {
       >
         Create New Post
       </Button>
-      <Image src={image} alt="" />
+      <Tooltip text="image">
+        <Image src={image} alt="" />
+      </Tooltip>
       <Flex col className="my-4 space-y-2 px-3 font-semibold">
         <Typography className="flex w-full justify-between ">
           <span>username:</span>

@@ -7,10 +7,12 @@ import {
 } from "@heroicons/react/24/solid";
 import classnames from "classnames";
 import React from "react";
-import { Button, Flex, Typography } from "@src/components";
-import { AutocompleteProps } from "./Autocomplete.Types";
 import uuid from "react-uuid";
+import { Box, Button, Flex, Input, Typography } from "@src/components";
+import { AutocompleteProps } from "./Autocomplete.Types";
 import { useCopyToClipboard } from "@src/hooks";
+import useClickOutside from "@src/hooks/useClickOutside";
+import { containerStyles } from "./Autocomplete.Styles";
 
 const Autocomplete: React.FC<AutocompleteProps> = React.forwardRef<
   HTMLInputElement,
@@ -21,21 +23,45 @@ const Autocomplete: React.FC<AutocompleteProps> = React.forwardRef<
     atSelect,
     className,
     chevronClassName,
+    labelClassName,
+    inputClassName,
+    actionsContainerClassName,
+    iconClassName,
+    optionsContainerClassName,
+    optionsClassName,
     placeholder,
     label,
     customRef,
     id,
-    labelClassName,
-    inputClassName,
-    actionsContainerClassName,
-    clearIconClassName,
     ...rest
   } = props;
+
+  const Styles = React.useMemo(
+    () => ({
+      container: containerStyles.container,
+      label: containerStyles.label,
+      actionsContainer: containerStyles.actionsContainer,
+      clearIcon: containerStyles.clearIcon,
+      copyIcon: containerStyles.copyIcon,
+      optionsContainer: containerStyles.optionsContainer,
+      options: containerStyles.options,
+      optionAlt: containerStyles.optionAlt,
+      chevron: containerStyles.chevron,
+      // add any additional styles or overrides here
+      // e.g. backgroundColor: color, padding: padding
+    }),
+    []
+  );
+
   const [inputValue, setInputValue] = React.useState("");
   const [showOptions, setShowOptions] = React.useState(false);
+
   const inputRef = React.useRef<HTMLInputElement>(null);
-  const wrapperRef = React.useRef<HTMLDivElement>(null);
+  // const wrapperRef = React.useRef<HTMLDivElement>(null);
+
   const [copyToClipboard, { isCopied, error }] = useCopyToClipboard();
+
+  const CLASS_NAMES = React.useMemo(() => {}, []);
 
   const filteredItems = React.useMemo(() => {
     try {
@@ -49,25 +75,12 @@ const Autocomplete: React.FC<AutocompleteProps> = React.forwardRef<
   }, [options, inputValue]);
 
   React.useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
+    if (inputRef?.current) {
+      inputRef?.current?.focus();
     }
   }, []);
 
-  React.useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent) => {
-      if (
-        wrapperRef.current &&
-        !wrapperRef.current.contains(event.target as Node)
-      ) {
-        setShowOptions(false);
-      }
-    };
-    document.addEventListener("mousedown", handleOutsideClick);
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
-  }, []);
+  const clickOutsideRef = useClickOutside(() => setShowOptions(false));
 
   const handleInputChange = React.useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,50 +101,21 @@ const Autocomplete: React.FC<AutocompleteProps> = React.forwardRef<
   );
 
   return (
-    <>
+    <Box>
       <Flex
-        ref={wrapperRef}
-        className={classnames(
-          className,
-          "items-center",
-          "relative",
-          "min-w-[150px]",
-          "rounded-md border",
-          "border-gray-300",
-          "bg-gray-100 dark:bg-transparent",
-          "px-4",
-          "py-2",
-          "focus:outline-none",
-          "space-y-1"
-        )}
+        ref={clickOutsideRef}
+        className={classnames(Styles.container, className)}
       >
-        <Typography
-          className={classnames(
-            labelClassName,
-            "absolute",
-            "left-1",
-            "top-[-22px]",
-            "text-xs",
-            "capitalize"
-          )}
-          htmlFor={id}
-          as="label"
-        >
-          {label}
-        </Typography>
+        <Box className={classnames(Styles.label, labelClassName)}>
+          <Typography htmlFor={id} as="label">
+            {label}
+          </Typography>
+        </Box>
 
-        <input
+        <Input
+          className={classnames(inputClassName)}
           id={id}
           placeholder={placeholder}
-          className={classnames(
-            inputClassName,
-            "flex-1",
-            "bg-transparent",
-            "text-gray-900",
-            "outline-none",
-            "focus:outline-none",
-            "dark:text-gray-300"
-          )}
           ref={customRef ? ref : inputRef}
           type="text"
           value={inputValue}
@@ -146,12 +130,7 @@ const Autocomplete: React.FC<AutocompleteProps> = React.forwardRef<
           col
           className={classnames(
             actionsContainerClassName,
-            "m-0",
-            "h-full",
-            "items-center",
-            "justify-center",
-            "space-y-2",
-            "bg-transparent"
+            Styles.actionsContainer
           )}
         >
           <Button
@@ -164,11 +143,7 @@ const Autocomplete: React.FC<AutocompleteProps> = React.forwardRef<
             }}
           >
             <XMarkIcon
-              className={classnames(
-                "w-3",
-                "group-hover:text-red-500",
-                clearIconClassName
-              )}
+              className={classnames(Styles.clearIcon, iconClassName)}
             />
           </Button>
           <Button
@@ -181,34 +156,37 @@ const Autocomplete: React.FC<AutocompleteProps> = React.forwardRef<
             className="group m-0 p-0"
           >
             <ClipboardIcon
-              className={classnames(
-                "w-3",
-                "group-hover:text-green-500",
-                clearIconClassName
-              )}
+              className={classnames(Styles.copyIcon, iconClassName)}
             />
           </Button>
         </Flex>
 
-        <hr className="mx-3 h-8 w-[0.1px] self-center border border-gray-300" />
+        <hr className="mx-3 h-8 w-[0.1px] rounded-full border border-gray-400" />
 
         {showOptions && filteredItems && (
-          <ul className="absolute top-full left-0 z-10 max-h-[300px] w-full overflow-scroll rounded-md bg-gray-200 shadow-lg dark:border dark:border-gray-300 dark:bg-gray-800 ">
+          <ul
+            className={classnames(
+              Styles.optionsContainer,
+              optionsContainerClassName
+            )}
+          >
             {filteredItems?.length > 0 || inputValue.length
               ? filteredItems?.map((option) => (
                   <li
+                    typeof="button"
                     key={uuid()}
                     onClick={() => handleItemSelect(option)}
-                    className="relative flex cursor-pointer items-center justify-start p-6"
+                    className={classnames(Styles.options, optionsClassName)}
                   >
                     <Typography>{option}</Typography>
                   </li>
                 ))
               : options?.map((option) => (
                   <li
+                    typeof="button"
                     key={uuid()}
                     onClick={() => handleItemSelect(option)}
-                    className="cursor-pointer px-4 py-2 "
+                    className={classnames(Styles.options, optionsClassName)}
                   >
                     <Typography>{option}</Typography>
                   </li>
@@ -227,15 +205,15 @@ const Autocomplete: React.FC<AutocompleteProps> = React.forwardRef<
             }
             className={classnames(
               chevronClassName,
-              "w-7 cursor-pointer text-gray-700 transition-transform duration-300 dark:text-gray-300",
+              Styles.chevron,
               showOptions ? "rotate-180" : "rotate-0"
             )}
           />
         </Button>
       </Flex>
-    </>
+    </Box>
   );
 });
-Autocomplete.displayName = "Autocomplee";
+Autocomplete.displayName = "Autocomplete";
 
 export default Autocomplete;

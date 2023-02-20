@@ -3,27 +3,6 @@
 @tailwind utilities;
 
 @layer components {
-  .DEFAULT_ACCORDION_CONTAINER_CLASSNAME {
-    @apply w-72 min-w-[150px] max-w-[400px] rounded py-2 px-2;
-  }
-  .DEFAULT_ACCORDION_ITEM_CLASSNAME {
-    @apply items-center justify-between w-full;
-  }
-  .DEFAULT_ACCORDION_LABEL_CLASSNAME {
-    @apply capitalize;
-  }
-  .DEFAULT_ACCORDION_LABEL_CONTAINER_CLASSNAME {
-    @apply justify-between items-center relative z-50 h-fit w-full bg-blue-500 px-2 py-1 cursor-pointer;
-  }
-  .DEFAULT_ACCORDION_CHEVRON_CONTAINER_CLASSNAME {
-    @apply object-contain flex items-center;
-  }
-  .DEFAULT_ACCORDION_CHEVRON_CLASSNAME {
-    @apply w-7 object-contain;
-  }
-  .DEFAULT_ACCORDION_CONTENT_CONTAINER_CLASSNAME {
-    @apply text-start p-1 my-2 w-full;
-  }
   .DEFAULT_GRID_CLASSNAME {
     @apply grid;
   }

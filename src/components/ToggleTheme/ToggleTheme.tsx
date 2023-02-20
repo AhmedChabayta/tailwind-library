@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, NoSsr, Switch } from "@src/components";
+import { Button, Switch } from "@src/components";
 import { SunIcon, MoonIcon } from "@heroicons/react/24/solid";
 import React from "react";
 import { applyThemePreference, useSchemeStore } from "@src/Store/schemeStore";
@@ -19,7 +19,7 @@ const ToggleTheme = ({
     applyThemePreference(colorScheme);
   }, [colorScheme]);
   return (
-    <NoSsr ssr={false}>
+    <>
       {as === "button" ? (
         <Button
           className={className}
@@ -45,7 +45,7 @@ const ToggleTheme = ({
           }}
         />
       )}
-    </NoSsr>
+    </>
   );
 };
 export default ToggleTheme;

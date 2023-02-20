@@ -11,7 +11,7 @@ export {
   Center,
   Code,
   Switch,
-  NoSsr,
+  Input,
+  Search,
+  Tooltip,
 } from "./components";
-
-export { useDarkMode } from "./hooks";

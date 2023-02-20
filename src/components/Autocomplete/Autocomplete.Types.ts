@@ -11,5 +11,7 @@ export interface AutocompleteProps
   labelClassName?: string;
   inputClassName?: string;
   actionsContainerClassName?: string;
-  clearIconClassName?: string;
+  iconClassName?: string;
+  optionsContainerClassName?: string;
+  optionsClassName?: string;
 }

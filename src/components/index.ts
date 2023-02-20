@@ -10,4 +10,6 @@ export { default as Chip } from "./Chip";
 export { default as Center } from "./Center";
 export { default as Code } from "./Code";
 export { default as Switch } from "./Switch";
-export { default as NoSsr } from "./DynamicWrapper";
+export { default as Input } from "./Input";
+export { default as Search } from "./Search";
+export { default as Tooltip } from "./Tooltip";

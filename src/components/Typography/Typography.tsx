@@ -20,8 +20,8 @@ const Typography = React.forwardRef<
             ref,
             className: classnames(
               className,
-              "text-gray-900",
-              "dark:text-gray-300"
+              "text-inherit",
+              "dark:text-inherit"
             ),
             ...rest,
           },

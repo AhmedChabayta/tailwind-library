@@ -1,20 +1,9 @@
 import type { GetStaticProps, NextPage } from "next";
 
 import Layout from "Layout/Layout";
-import {
-  Accordion,
-  Autocomplete,
-  Box,
-  Center,
-  Code,
-  Flex,
-  Grid,
-  Switch,
-  Typography,
-} from "@src/components";
+import { Autocomplete, Box } from "@src/components";
 import ToggleTheme from "@src/components/ToggleTheme/ToggleTheme";
 import React from "react";
-import { Tooltip } from "@src/components/Tooltip/Tooltip";
 
 export type Data = {
   data: {
@@ -53,34 +42,28 @@ const Home = ({ data }: Data) => {
 
   return (
     <Layout
-      className="h-screen w-screen items-center justify-center"
+      className="h-screen w-screen flex-col items-center justify-center space-y-12"
       title="New Title"
     >
-      {" "}
-      <ToggleTheme
-        as="button"
-        className="absolute top-0 right-0 rounded-none"
-      />
-      <Tooltip text="theme toggle">
-        <Typography as="code">
-          {`
-<html>
-  <head>
-  
-  </head>
-  <body>
+      <ToggleTheme as="button" className="fixed right-0 top-0" />
 
-  </body>
-</html>
-          `}
-        </Typography>
-      </Tooltip>
-      <Autocomplete
-        label="names"
-        atSelect={handleSelect}
-        id="names"
-        options={names}
-      />
+      <Box className="relative">
+        <Autocomplete
+          placeholder="Names"
+          className="flex-row-reverse bg-gray-300 dark:bg-gray-500"
+          atSelect={handleSelect}
+          id="names"
+          label="names"
+          options={names}
+          chevronClassName="rotate-0"
+          labelClassName="text-gray-900 hover:bg-lime-500 dark:text-gray-300"
+          inputClassName="px-4 placeholder:text-fuchsia-500"
+          actionsContainerClassName=""
+          iconClassName="w-5"
+          optionsContainerClassName=""
+          optionsClassName="text-gray-900 hover:bg-lime-500 dark:text-gray-300"
+        />
+      </Box>
     </Layout>
   );
 };
